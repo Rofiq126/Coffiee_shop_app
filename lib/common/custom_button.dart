@@ -2,9 +2,10 @@ import 'package:coffee_shop_app/common/style.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
-  String nameButton;
-  GestureTapCallback navigator;
-  CustomButton({Key? key, required this.nameButton, required this.navigator})
+  final String nameButton;
+  final GestureTapCallback navigator;
+  const CustomButton(
+      {Key? key, required this.nameButton, required this.navigator})
       : super(key: key);
 
   @override

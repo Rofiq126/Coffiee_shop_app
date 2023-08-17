@@ -1,4 +1,3 @@
-import 'package:coffee_shop_app/common/style.dart';
 import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +6,6 @@ class CustomBadgeSize extends StatefulWidget {
   final CoffeeShopViewModel viewModel;
   final Color badgeColor;
   final Color textColor;
-
   final String name;
   const CustomBadgeSize(
       {Key? key,
