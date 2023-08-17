@@ -1,8 +1,10 @@
 import 'package:coffee_shop_app/common/style.dart';
 import 'package:coffee_shop_app/model/list_coffee_model.dart';
+import 'package:coffee_shop_app/view/detail_menu_screen/detail_menu_screen.dart';
+import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
 
-listCoffee(Size size) {
+listCoffee({required Size size, required CoffeeShopViewModel viewModel}) {
   return ListView.separated(
       itemCount: dataCoffee.length,
       separatorBuilder: (context, index) => const SizedBox(
@@ -34,7 +36,16 @@ listCoffee(Size size) {
                     style: Styles.txtReguler,
                   ),
                   trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => DetailMenuScreen(
+                                  name: dataCoffee[index].name,
+                                  price: dataCoffee[index].price,
+                                  description: dataCoffee[index].description,
+                                  pathPicture: dataCoffee[index].pathPicture)));
+                    },
                     icon: const Icon(
                       Icons.arrow_forward_ios,
                       color: Styles.brownColor,

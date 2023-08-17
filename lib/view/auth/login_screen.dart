@@ -2,7 +2,6 @@ import 'package:coffee_shop_app/common/bottom_navigation.dart';
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/custom_textfield..dart';
 import 'package:coffee_shop_app/common/style.dart';
-import 'package:coffee_shop_app/view/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -56,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (value == null) {
                     return "Email cannot be empty";
                   }
+                  return null;
                 },
                 icon: const Icon(
                   Icons.email_rounded,
@@ -70,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (value == null) {
                     return "Password cannot be empty";
                   }
+                  return null;
                 },
                 icon: const Icon(
                   Icons.lock,
