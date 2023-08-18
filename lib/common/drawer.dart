@@ -1,7 +1,9 @@
 import 'package:coffee_shop_app/common/style.dart';
+import 'package:coffee_shop_app/view/auth/login_screen.dart';
+import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
 
-drawerCoffee(Size size) {
+drawerCoffee(Size size, BuildContext context, CoffeeShopViewModel viewModel) {
   return Drawer(
     backgroundColor: Styles.primaryColor,
     child: ListView(
@@ -41,7 +43,20 @@ drawerCoffee(Size size) {
           ),
         ),
         ListTile(
-          onTap: () {},
+          onTap: () async {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Styles.brownColor,
+                    ),
+                  );
+                });
+            await viewModel.signOutUser().then((value) =>
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => LoginScreen())));
+          },
           leading: const Icon(
             Icons.logout_rounded,
             color: Styles.greyColor,

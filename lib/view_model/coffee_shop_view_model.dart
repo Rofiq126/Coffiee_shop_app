@@ -1,5 +1,7 @@
 import 'package:coffee_shop_app/model/list_cart_model.dart';
 import 'package:coffee_shop_app/view_model/result_state.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class CoffeeShopViewModel extends ChangeNotifier {
@@ -93,6 +95,35 @@ class CoffeeShopViewModel extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint(e.toString());
+      notifyListeners();
+    }
+  }
+
+  Future signInUser({required String email, required String password}) async {
+    try {
+      changeState(ResultState.loading);
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      changeState(ResultState.hasData);
+      message = 'Login success';
+      notifyListeners();
+    } catch (e) {
+      debugPrint(e.toString());
+      message = 'Something wrong';
+      notifyListeners();
+    }
+  }
+
+  Future signOutUser() async {
+    try {
+      changeState(ResultState.loading);
+      FirebaseAuth.instance.signOut();
+      changeState(ResultState.hasData);
+      message = 'Signout succes';
+      notifyListeners();
+    } catch (e) {
+      debugPrint(e.toString());
+      message = 'Something wrong';
       notifyListeners();
     }
   }

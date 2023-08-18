@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>317133576524-je8qkfojlao4jhvtsjd8bh7rvqa457td.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.317133576524-je8qkfojlao4jhvtsjd8bh7rvqa457td</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDN2OeEXXmImwwmsX2pMXH5BdItp5TLjww</string>
+	<key>GCM_SENDER_ID</key>
+	<string>317133576524</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.coffeeShopApp</string>
+	<key>PROJECT_ID</key>
+	<string>authcoffeeshop</string>
+	<key>STORAGE_BUCKET</key>
+	<string>authcoffeeshop.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:317133576524:ios:0afc432e8063fa72d357e9</string>
+</dict>
+</plist>

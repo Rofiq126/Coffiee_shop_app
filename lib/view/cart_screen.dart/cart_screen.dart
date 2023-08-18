@@ -30,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
         elevation: 0,
         backgroundColor: Styles.primaryColor,
       ),
-      drawer: drawerCoffee(size),
+      drawer: drawerCoffee(size, context, viewModel),
       body: viewModel.cartData.isEmpty
           ? Center(
               child: Column(

@@ -2,7 +2,9 @@ import 'package:coffee_shop_app/common/bottom_navigation.dart';
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/custom_textfield..dart';
 import 'package:coffee_shop_app/common/style.dart';
+import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var viewModel = Provider.of<CoffeeShopViewModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Styles.primaryColor,
       body: Padding(
@@ -82,9 +85,27 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             CustomButton(
               nameButton: 'Enter Shop',
-              navigator: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => BottomNavBar()));
+              navigator: () async {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Styles.brownColor,
+                        ),
+                      );
+                    });
+                await viewModel.signInUser(
+                    email: email.text, password: password.text);
+                if (viewModel.message == 'Login success') {
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => BottomNavBar()));
+                } else {
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => LoginScreen()));
+                }
               },
             )
           ],

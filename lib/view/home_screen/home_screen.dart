@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         backgroundColor: Styles.primaryColor,
       ),
-      drawer: drawerCoffee(size),
+      drawer: drawerCoffee(size, context, viewModel),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
