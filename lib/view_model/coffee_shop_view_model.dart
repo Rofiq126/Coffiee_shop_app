@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_shop_app/model/list_cart_model.dart';
 import 'package:coffee_shop_app/view_model/result_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CoffeeShopViewModel extends ChangeNotifier {
   List<ListCart> cartData = [];
@@ -15,7 +17,10 @@ class CoffeeShopViewModel extends ChangeNotifier {
   String size = '';
   ResultState _resultState = ResultState.loading;
   ResultState get resultState => _resultState;
-
+  var db = FirebaseFirestore.instance;
+  DocumentReference? docRef;
+  List idIndex = [];
+  String id = '';
   void changeState(ResultState resultState) {
     _resultState = resultState;
     notifyListeners();
@@ -24,7 +29,14 @@ class CoffeeShopViewModel extends ChangeNotifier {
   Future addCart(ListCart dataCart) async {
     try {
       changeState(ResultState.loading);
-      cartData.add(dataCart);
+      var data = dataCart;
+      await db
+          .collection("dataCart")
+          .add(data.listCartToJson())
+          .then((DocumentReference doc) {
+        debugPrint('DocumentSnapshot added with ID: ${doc.id}');
+      });
+      // cartData.add(dataCart);
       message = 'Item succesfully added';
       changeState(ResultState.hasData);
       notifyListeners();
@@ -36,11 +48,15 @@ class CoffeeShopViewModel extends ChangeNotifier {
     }
   }
 
-  Future deleteCart(int index) async {
+  Future deleteCart(
+    String id,
+  ) async {
+    getDataCart();
     try {
       changeState(ResultState.loading);
-      cartData.removeAt(index);
+      db.collection('dataCart').doc(id).delete();
       message = 'Item deleted';
+      notifyListeners();
       changeState(ResultState.hasData);
       notifyListeners();
     } catch (e) {
@@ -126,5 +142,43 @@ class CoffeeShopViewModel extends ChangeNotifier {
       message = 'Something wrong';
       notifyListeners();
     }
+  }
+
+  Future getDataCart() async {
+    cartData.clear();
+    try {
+      changeState(ResultState.loading);
+      var data = await db.collection('dataCart').get();
+      for (var doc in data.docs) {
+        cartData.add(ListCart.fromJson(doc.data()));
+        changeState(ResultState.hasData);
+        notifyListeners();
+      }
+      changeState(ResultState.noData);
+      notifyListeners();
+    } catch (e) {
+      changeState(ResultState.error);
+      debugPrint(e.toString());
+      notifyListeners();
+    }
+  }
+
+  Future getId() async {
+    idIndex.clear();
+    var data = db.collection('dataCart');
+    await for (var snapShot in data.snapshots()) {
+      for (var document in snapShot.docs) {
+        idIndex.add(document.id);
+        notifyListeners();
+      }
+    }
+  }
+
+  void getDataBinding(BuildContext context) {
+    cartData.clear();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
+      notifyListeners();
+    });
   }
 }

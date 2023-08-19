@@ -1,3 +1,4 @@
+import 'package:coffee_shop_app/common/bottom_navigation.dart';
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/style.dart';
 import 'package:coffee_shop_app/model/list_cart_model.dart';
@@ -116,6 +117,16 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
           child: CustomButton(
               nameButton: 'Add to cart',
               navigator: () async {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const Center(
+                        child:
+                            CircularProgressIndicator(color: Styles.brownColor),
+                      );
+                    });
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => BottomNavBar()));
                 await viewModel
                     .addCart(
                       ListCart(
@@ -125,33 +136,11 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                           quantity: viewModel.quantity,
                           size: viewModel.size),
                     )
-                    .then((value) => Navigator.pop(context));
-                if (viewModel.message == 'Item succesfully added') {
-                  // ignore: use_build_context_synchronously
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  'assets/icons/checked.png',
-                                  width: 80,
-                                  height: 80,
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  viewModel.message,
-                                  style: Styles.txtTitleGrey,
-                                ),
-                              ],
-                            ),
-                          ));
-                }
-                // .then((value) => Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (_) => BottomNavBar())));
+                    .whenComplete(() => viewModel.getDataBinding(context));
+                if (viewModel.message == 'Item succesfully added') {}
+                // ignore: use_build_context_synchronously
+                // await Navigator.pushReplacement(
+                //     context, MaterialPageRoute(builder: (_) => BottomNavBar()));
               }),
         ),
       ),

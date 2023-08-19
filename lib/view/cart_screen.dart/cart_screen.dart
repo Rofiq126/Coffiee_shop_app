@@ -16,7 +16,12 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
-    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      Provider.of<CoffeeShopViewModel>(context, listen: false).getId();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
+    });
     super.initState();
   }
 
@@ -63,11 +68,11 @@ class _CartScreenState extends State<CartScreen> {
                     const SizedBox(
                       height: 16,
                     ),
-                    listCart(
-                      size: size,
-                      viewModel: viewModel,
-                      function: () => setState(() {}),
-                    ),
+                    ListCart(
+                      function: () {
+                        setState(() {});
+                      },
+                    )
                   ],
                 ),
               ),
