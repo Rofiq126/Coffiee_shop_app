@@ -13,17 +13,17 @@ class Styles {
       fontWeight: FontWeight.w600);
   static const TextStyle txtTitleGrey = TextStyle(
       color: Styles.greyColor,
-      fontSize: 16,
+      fontSize: 14,
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w400);
   static const TextStyle txtTitleGreyLight = TextStyle(
       color: Styles.greyColor,
-      fontSize: 16,
+      fontSize: 14,
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w300);
   static const TextStyle txtTitleWhiteLight = TextStyle(
       color: Styles.whiteColor,
-      fontSize: 16,
+      fontSize: 14,
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w300);
   static const TextStyle txtTitleBrown = TextStyle(

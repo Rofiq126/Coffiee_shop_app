@@ -38,7 +38,7 @@ class _ListCartState extends State<ListCart> {
           }
           return ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: snapshot.data!.docs.length,
+              itemCount: viewModel.cartData.length,
               separatorBuilder: (context, index) => const SizedBox(
                     height: 10,
                   ),

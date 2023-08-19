@@ -27,6 +27,7 @@ class DetailMenuScreen extends StatefulWidget {
 
 class _DetailMenuScreenState extends State<DetailMenuScreen> {
   bool isPressed = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,9 +35,15 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Styles.primaryColor,
+        centerTitle: true,
+        title: const Text(
+          'Detail Menu',
+          style: Styles.txtTitleMain,
+        ),
         leading: InkWell(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) => const BottomNavBar()));
             },
             child: const Icon(
               Icons.arrow_back_rounded,
@@ -113,9 +120,9 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
         width: size.width,
         decoration: const BoxDecoration(color: Styles.primaryColor),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 100),
+          padding: const EdgeInsets.symmetric(horizontal: 89),
           child: CustomButton(
-              nameButton: 'Add to cart',
+              nameButton: 'Add To Cart',
               navigator: () async {
                 showDialog(
                     context: context,
@@ -125,8 +132,8 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                             CircularProgressIndicator(color: Styles.brownColor),
                       );
                     });
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => BottomNavBar()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const BottomNavBar()));
                 await viewModel
                     .addCart(
                       ListCart(
@@ -137,10 +144,6 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                           size: viewModel.size),
                     )
                     .whenComplete(() => viewModel.getDataBinding(context));
-                if (viewModel.message == 'Item succesfully added') {}
-                // ignore: use_build_context_synchronously
-                // await Navigator.pushReplacement(
-                //     context, MaterialPageRoute(builder: (_) => BottomNavBar()));
               }),
         ),
       ),

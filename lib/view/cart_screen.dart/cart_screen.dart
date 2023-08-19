@@ -1,6 +1,6 @@
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/style.dart';
-import 'package:coffee_shop_app/common/drawer.dart';
+import 'package:coffee_shop_app/view/auth/login_screen.dart';
 import 'package:coffee_shop_app/view/cart_screen.dart/component/list_cart.dart';
 import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +34,32 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Styles.primaryColor,
+        centerTitle: true,
+        title: const Text(
+          'Your Cart',
+          style: Styles.txtTitleMain,
+        ),
+        leading: IconButton(
+            onPressed: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Styles.brownColor,
+                      ),
+                    );
+                  });
+              Navigator.pop(context);
+              await viewModel.signOutUser().then((value) =>
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => LoginScreen())));
+            },
+            icon: const Icon(
+              Icons.exit_to_app_rounded,
+              color: Styles.brownColor,
+            )),
       ),
-      drawer: drawerCoffee(size, context, viewModel),
       body: viewModel.cartData.isEmpty
           ? Center(
               child: Column(
@@ -83,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
               width: size.width,
               decoration: const BoxDecoration(color: Styles.primaryColor),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 94),
                 child: CustomButton(nameButton: 'Order Now', navigator: () {}),
               ))),
     );

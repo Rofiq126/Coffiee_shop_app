@@ -22,7 +22,7 @@ class _CustomButtonState extends State<CustomButton> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           backgroundColor: Styles.brownColor),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 40),
         child: Text(
           widget.nameButton,
           style: Styles.txtButton,
