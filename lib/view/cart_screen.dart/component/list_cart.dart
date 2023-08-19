@@ -106,7 +106,7 @@ class _ListCartState extends State<ListCart> {
                               Navigator.pop(context);
                               await viewModel
                                   .deleteCart(
-                                    snapshot.data!.docs[index].id,
+                                    viewModel.idIndex[index],
                                   )
                                   .then((value) =>
                                       viewModel.getDataBinding(context));

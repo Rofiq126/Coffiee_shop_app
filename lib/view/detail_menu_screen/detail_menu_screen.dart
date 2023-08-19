@@ -44,6 +44,7 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
             onTap: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) => const BottomNavBar()));
+              viewModel.clearData();
             },
             child: const Icon(
               Icons.arrow_back_rounded,

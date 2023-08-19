@@ -30,12 +30,13 @@ class CoffeeShopViewModel extends ChangeNotifier {
     try {
       changeState(ResultState.loading);
       var data = dataCart;
-      await db
+      db
           .collection("dataCart")
           .add(data.listCartToJson())
           .then((DocumentReference doc) {
         debugPrint('DocumentSnapshot added with ID: ${doc.id}');
       });
+      await clearData();
       // cartData.add(dataCart);
       message = 'Item succesfully added';
       changeState(ResultState.hasData);
@@ -180,5 +181,13 @@ class CoffeeShopViewModel extends ChangeNotifier {
       Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
       notifyListeners();
     });
+  }
+
+  Future clearData() async {
+    quantity = 0;
+    isTapped0 = false;
+    isTapped1 = false;
+    isTapped2 = false;
+    notifyListeners();
   }
 }
