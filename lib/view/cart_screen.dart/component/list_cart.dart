@@ -29,8 +29,7 @@ class _ListCartState extends State<ListCart> {
                 style: Styles.txtTitleBrown,
               ),
             );
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(
                 color: Styles.brownColor,

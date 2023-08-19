@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class BottomNavBar extends StatefulWidget {
-  int? selectedIndex = 0;
-  BottomNavBar({Key? key, this.selectedIndex}) : super(key: key);
+  const BottomNavBar({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -14,13 +15,13 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   static List<Widget> optionScreen = <Widget>[HomeScreen(), CartScreen()];
-  // int selectedIndex = 0;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-          child: optionScreen.elementAt(widget.selectedIndex ?? 0),
+          child: optionScreen.elementAt(selectedIndex),
         ),
         bottomNavigationBar: GNav(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -42,10 +43,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
               textStyle: Styles.txtRegulerGrey,
             ),
           ],
-          selectedIndex: widget.selectedIndex ?? 0,
+          selectedIndex: selectedIndex,
           onTabChange: (index) {
             setState(() {
-              widget.selectedIndex = index;
+              selectedIndex = index;
             });
           },
         ));
