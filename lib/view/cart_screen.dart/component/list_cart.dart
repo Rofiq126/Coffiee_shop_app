@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class ListCart extends StatefulWidget {
   final VoidCallback function;
-  ListCart({Key? key, required this.function}) : super(key: key);
+  const ListCart({Key? key, required this.function}) : super(key: key);
 
   @override
   State<ListCart> createState() => _ListCartState();
