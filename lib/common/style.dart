@@ -36,6 +36,11 @@ class Styles {
       fontSize: 12,
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w400);
+  static const TextStyle txtRegulerActive = TextStyle(
+      color: Colors.blueAccent,
+      fontSize: 12,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.w400);
   static const TextStyle txtRegulerGrey = TextStyle(
       color: Styles.greyColor,
       fontSize: 12,
