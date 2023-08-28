@@ -6,11 +6,13 @@ class CustomTextField extends StatefulWidget {
   final String label;
   final FormFieldValidator<String> validator;
   final Icon icon;
+  final Widget? suffix;
   final bool obsecure;
   const CustomTextField(
       {Key? key,
       required this.controller,
       required this.label,
+      this.suffix,
       required this.validator,
       required this.icon,
       required this.obsecure})
@@ -29,21 +31,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.obsecure,
       validator: widget.validator,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
-          hintText: widget.label,
-          hintStyle: Styles.txtRegulerGrey,
-          filled: true,
-          fillColor: Styles.whiteColor,
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-              borderSide: const BorderSide(width: 1, color: Styles.whiteColor)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-              borderSide: const BorderSide(width: 1, color: Styles.whiteColor)),
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
-              borderSide: const BorderSide(width: 1, color: Colors.redAccent)),
-          prefixIcon: widget.icon),
+        contentPadding: EdgeInsets.zero,
+        hintText: widget.label,
+        hintStyle: Styles.txtRegulerGrey,
+        filled: true,
+        fillColor: Styles.whiteColor,
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(width: 1, color: Styles.whiteColor)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(width: 1, color: Styles.whiteColor)),
+        focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(width: 1, color: Colors.redAccent)),
+        prefixIcon: widget.icon,
+        suffixIcon: widget.suffix,
+      ),
     );
   }
 }
