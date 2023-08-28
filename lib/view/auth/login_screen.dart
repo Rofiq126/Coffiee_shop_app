@@ -2,6 +2,7 @@ import 'package:coffee_shop_app/common/bottom_navigation.dart';
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/custom_textfield..dart';
 import 'package:coffee_shop_app/common/style.dart';
+import 'package:coffee_shop_app/view/auth/component/button_register.dart';
 import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -109,14 +110,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (viewModel.message == 'Login success') {
                   // ignore: use_build_context_synchronously
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => BottomNavBar()));
+                      MaterialPageRoute(builder: (_) => const BottomNavBar()));
                 } else {
                   // ignore: use_build_context_synchronously
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => LoginScreen()));
                 }
               },
-            )
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            buttonRegister(context: context)
           ],
         ),
       ),
