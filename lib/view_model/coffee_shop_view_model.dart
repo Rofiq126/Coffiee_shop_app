@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_shop_app/model/list_cart_model.dart';
+import 'package:coffee_shop_app/model/user_data_model.dart';
 import 'package:coffee_shop_app/view_model/result_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -18,9 +19,10 @@ class CoffeeShopViewModel extends ChangeNotifier {
   ResultState _resultState = ResultState.loading;
   ResultState get resultState => _resultState;
   var db = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
   DocumentReference? docRef;
   List idIndex = [];
-  String id = '';
+  String id = 'null';
   void changeState(ResultState resultState) {
     _resultState = resultState;
     notifyListeners();
@@ -116,6 +118,41 @@ class CoffeeShopViewModel extends ChangeNotifier {
     }
   }
 
+  Future createUser({required UserData userData}) async {
+    try {
+      changeState(ResultState.loading);
+      var users = db.collection('Users');
+      await auth
+          .createUserWithEmailAndPassword(
+              email: userData.email, password: userData.password)
+          .then((value) => users.add(userData.userDataToJson()));
+      message = 'Account succesfully created';
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      changeState(ResultState.error);
+      if (e.code == 'weak-password') {
+        message = 'Password provided is too weak';
+        notifyListeners();
+      } else if (e.code == 'email-already-in-use') {
+        message = 'The account already exists';
+        notifyListeners();
+      } else {
+        debugPrint(e.toString());
+      }
+    }
+  }
+
+  Future getUid() async {
+    auth.authStateChanges().listen((user) {
+      if (user != null) {
+        id = user.uid;
+        notifyListeners();
+      } else {
+        debugPrint('Something wrong');
+      }
+    });
+  }
+
   Future signInUser({required String email, required String password}) async {
     try {
       changeState(ResultState.loading);
@@ -124,10 +161,19 @@ class CoffeeShopViewModel extends ChangeNotifier {
       changeState(ResultState.hasData);
       message = 'Login success';
       notifyListeners();
-    } catch (e) {
-      debugPrint(e.toString());
-      message = 'Something wrong';
-      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      changeState(ResultState.error);
+      if (e.code == 'user-not-found') {
+        message = 'No user found for this email';
+        notifyListeners();
+      } else if (e.code == 'wrong-password') {
+        message = 'Wrong password';
+        notifyListeners();
+      } else {
+        debugPrint(e.toString());
+        message = 'Something wrong';
+        notifyListeners();
+      }
     }
   }
 
