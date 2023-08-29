@@ -15,17 +15,6 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<CoffeeShopViewModel>(context, listen: false).getId();
-    });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     var viewModel = Provider.of<CoffeeShopViewModel>(context, listen: false);
