@@ -1,7 +1,12 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/custom_textfield..dart';
 import 'package:coffee_shop_app/common/style.dart';
+import 'package:coffee_shop_app/model/user_data_model.dart';
+import 'package:coffee_shop_app/view/auth/component/snackbar_condition.dart';
+import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -19,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var viewModel = Provider.of<CoffeeShopViewModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Styles.primaryColor,
       body: Center(
@@ -116,7 +122,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 40,
                 ),
-                CustomButton(nameButton: 'Register Me', navigator: () {})
+                CustomButton(
+                    nameButton: 'Register Me',
+                    navigator: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) => const Center(
+                                child: CircularProgressIndicator(
+                                  color: Styles.brownColor,
+                                ),
+                              ));
+                      Navigator.pop(context);
+                      await viewModel
+                          .createUser(
+                              userData: UserData(
+                                  name: name.text,
+                                  email: email.text,
+                                  phone: number.text,
+                                  password: password.text))
+                          .then((value) {
+                        if (viewModel.message ==
+                            'Account succesfully created') {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(Condition.registerSucces);
+                          Navigator.pop(context);
+                        } else if (viewModel.message ==
+                            'Password provided is too weak') {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(Condition.registerPasswordWeak);
+                        } else if (viewModel.message ==
+                            'The account already exists') {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(Condition.registerExist);
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(Condition.registerFilure);
+                        }
+                      });
+                    })
               ],
             ),
           ),
