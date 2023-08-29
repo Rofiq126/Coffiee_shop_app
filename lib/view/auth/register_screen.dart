@@ -1,4 +1,3 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/custom_textfield..dart';
 import 'package:coffee_shop_app/common/style.dart';
