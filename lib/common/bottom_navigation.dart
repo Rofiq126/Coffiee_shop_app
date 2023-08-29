@@ -1,8 +1,10 @@
 import 'package:coffee_shop_app/common/style.dart';
 import 'package:coffee_shop_app/view/cart_screen.dart/cart_screen.dart';
 import 'package:coffee_shop_app/view/home_screen/home_screen.dart';
+import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
@@ -16,6 +18,20 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   static List<Widget> optionScreen = <Widget>[HomeScreen(), CartScreen()];
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      Provider.of<CoffeeShopViewModel>(context, listen: false).getUid();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      Provider.of<CoffeeShopViewModel>(context, listen: false).getId();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
