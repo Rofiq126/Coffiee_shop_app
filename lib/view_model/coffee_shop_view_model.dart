@@ -23,6 +23,8 @@ class CoffeeShopViewModel extends ChangeNotifier {
   DocumentReference? docRef;
   List idIndex = [];
   String id = 'null';
+  final Stream<QuerySnapshot> dataCartStream =
+      FirebaseFirestore.instance.collection('dataCart').snapshots();
   void changeState(ResultState resultState) {
     _resultState = resultState;
     notifyListeners();
@@ -127,18 +129,18 @@ class CoffeeShopViewModel extends ChangeNotifier {
               email: userData.email, password: userData.password)
           .then((value) => users.add(userData.userDataToJson()));
       message = 'Account succesfully created';
-      notifyListeners();
     } on FirebaseAuthException catch (e) {
       changeState(ResultState.error);
       if (e.code == 'weak-password') {
         message = 'Password provided is too weak';
-        notifyListeners();
       } else if (e.code == 'email-already-in-use') {
         message = 'The account already exists';
-        notifyListeners();
+      } else if (e.code == 'invalid-email') {
+        message = 'email invalid';
       } else {
         debugPrint(e.toString());
       }
+      notifyListeners();
     }
   }
 
@@ -146,10 +148,10 @@ class CoffeeShopViewModel extends ChangeNotifier {
     auth.authStateChanges().listen((user) {
       if (user != null) {
         id = user.uid;
-        notifyListeners();
       } else {
         debugPrint('Something wrong');
       }
+      notifyListeners();
     });
   }
 
@@ -160,20 +162,18 @@ class CoffeeShopViewModel extends ChangeNotifier {
           .signInWithEmailAndPassword(email: email, password: password);
       changeState(ResultState.hasData);
       message = 'Login success';
-      notifyListeners();
     } on FirebaseAuthException catch (e) {
       changeState(ResultState.error);
       if (e.code == 'user-not-found') {
         message = 'No user found for this email';
-        notifyListeners();
       } else if (e.code == 'wrong-password') {
         message = 'Wrong password';
-        notifyListeners();
+      } else if (e.code == 'invalid-email') {
+        message = 'email invalid';
       } else {
         debugPrint(e.toString());
-        message = 'Something wrong';
-        notifyListeners();
       }
+      notifyListeners();
     }
   }
 
@@ -183,12 +183,11 @@ class CoffeeShopViewModel extends ChangeNotifier {
       FirebaseAuth.instance.signOut();
       changeState(ResultState.hasData);
       message = 'Signout succes';
-      notifyListeners();
     } catch (e) {
       debugPrint(e.toString());
       message = 'Something wrong';
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future getDataCart() async {
@@ -199,26 +198,12 @@ class CoffeeShopViewModel extends ChangeNotifier {
       for (var doc in data.docs) {
         cartData.add(ListCart.fromJson(doc.data()));
         changeState(ResultState.hasData);
-        notifyListeners();
       }
-      changeState(ResultState.noData);
-      notifyListeners();
     } catch (e) {
       changeState(ResultState.error);
       debugPrint(e.toString());
-      notifyListeners();
     }
-  }
-
-  Future getId() async {
-    idIndex.clear();
-    var data = db.collection('dataCart');
-    await for (var snapShot in data.snapshots()) {
-      for (var document in snapShot.docs) {
-        idIndex.add(document.id);
-        notifyListeners();
-      }
-    }
+    notifyListeners();
   }
 
   void getDataBinding(BuildContext context) {
