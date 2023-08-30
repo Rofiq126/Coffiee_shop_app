@@ -3,6 +3,7 @@ import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/custom_textfield..dart';
 import 'package:coffee_shop_app/common/style.dart';
 import 'package:coffee_shop_app/view/auth/component/button_register.dart';
+import 'package:coffee_shop_app/view/auth/component/snackbar_condition.dart';
 import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  bool isVisible = true;
 
   @override
   void initState() {
@@ -89,33 +91,48 @@ class _LoginScreenState extends State<LoginScreen> {
                   Icons.lock,
                   color: Styles.greyColor,
                 ),
-                obsecure: true),
+                suffix: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isVisible = !isVisible;
+                    });
+                  },
+                  icon: Icon(
+                    isVisible ? Icons.visibility_off : Icons.visibility,
+                    color: Styles.greyColor,
+                  ),
+                ),
+                obsecure: isVisible),
             const SizedBox(
               height: 40,
             ),
             CustomButton(
               nameButton: 'Enter Shop',
               navigator: () async {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Styles.brownColor,
-                        ),
-                      );
+                await viewModel
+                    .signInUser(email: email.text, password: password.text)
+                    .then((value) {
+                  if (viewModel.message == 'Login success') {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(Condition.loginSuccesfull);
+                    Future.delayed(const Duration(seconds: 3), () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const BottomNavBar()));
                     });
-                await viewModel.signInUser(
-                    email: email.text, password: password.text);
-                if (viewModel.message == 'Login success') {
-                  // ignore: use_build_context_synchronously
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const BottomNavBar()));
-                } else {
-                  // ignore: use_build_context_synchronously
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => LoginScreen()));
-                }
+                  } else if (viewModel.message ==
+                      'No user found for this email') {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(Condition.loginUserNotFound);
+                  } else if (viewModel.message == 'Wrong password') {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(Condition.loginWrongPassword);
+                  } else {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(Condition.registerFilure);
+                  }
+                });
               },
             ),
             const SizedBox(
