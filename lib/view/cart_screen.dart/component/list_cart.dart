@@ -14,13 +14,6 @@ class ListCart extends StatefulWidget {
 class _ListCartState extends State<ListCart> {
   final Stream<QuerySnapshot> dataCartStram =
       FirebaseFirestore.instance.collection('dataCart').snapshots();
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,11 +104,9 @@ class _ListCartState extends State<ListCart> {
                                     );
                                   });
                               Navigator.pop(context);
-                              await viewModel
-                                  .deleteCart(
-                                    docs.id,
-                                  )
-                                  .whenComplete(() => viewModel.getDataCart());
+                              await viewModel.deleteCart(
+                                docs.id,
+                              );
                             },
                             icon: const Icon(
                               Icons.delete,

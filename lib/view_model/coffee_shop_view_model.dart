@@ -56,7 +56,6 @@ class CoffeeShopViewModel extends ChangeNotifier {
   Future deleteCart(
     String id,
   ) async {
-    getDataCart();
     try {
       changeState(ResultState.loading);
       db.collection('dataCart').doc(id).delete();
@@ -188,30 +187,6 @@ class CoffeeShopViewModel extends ChangeNotifier {
       message = 'Something wrong';
     }
     notifyListeners();
-  }
-
-  Future getDataCart() async {
-    cartData.clear();
-    try {
-      changeState(ResultState.loading);
-      var data = await db.collection('dataCart').get();
-      for (var doc in data.docs) {
-        cartData.add(ListCart.fromJson(doc.data()));
-        changeState(ResultState.hasData);
-      }
-    } catch (e) {
-      changeState(ResultState.error);
-      debugPrint(e.toString());
-    }
-    notifyListeners();
-  }
-
-  void getDataBinding(BuildContext context) {
-    cartData.clear();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
-      notifyListeners();
-    });
   }
 
   Future clearData() async {

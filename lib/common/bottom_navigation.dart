@@ -20,17 +20,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int selectedIndex = 0;
 
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<CoffeeShopViewModel>(context, listen: false).getUid();
-    });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
