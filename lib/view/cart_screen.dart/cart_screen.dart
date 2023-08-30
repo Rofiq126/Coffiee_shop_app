@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_shop_app/common/custom_appBar.dart';
 import 'package:coffee_shop_app/common/custom_button.dart';
 import 'package:coffee_shop_app/common/style.dart';
@@ -14,6 +15,9 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final Stream<QuerySnapshot> dataCartStream =
+      FirebaseFirestore.instance.collection('dataCart').snapshots();
+  AsyncSnapshot<QuerySnapshot>? snapShot;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -22,49 +26,52 @@ class _CartScreenState extends State<CartScreen> {
       backgroundColor: Styles.primaryColor,
       appBar: customAppBar(
           name: 'Your Cart', context: context, viewModel: viewModel),
-      body: viewModel.cartData.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/icons/barista.png',
-                    width: size.width * 0.4,
+      body: StreamBuilder(
+          stream: dataCartStream,
+          builder: (context, snapshot) {
+            if (snapshot.data != null && snapshot.data!.docs.isNotEmpty) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Cart',
+                        style: Styles.txtTitleGrey,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      ListCart()
+                    ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    'You have\'t ordered',
-                    style: Styles.txtTitleBrown,
-                  )
-                ],
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: SingleChildScrollView(
+                ),
+              );
+            } else if (snapshot.data != null && snapshot.data!.docs.isEmpty) {
+              return Center(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Cart',
-                      style: Styles.txtTitleGrey,
+                    Image.asset(
+                      'assets/icons/barista.png',
+                      width: size.width * 0.4,
                     ),
                     const SizedBox(
-                      height: 16,
+                      height: 20,
                     ),
-                    ListCart(
-                      function: () {
-                        setState(() {});
-                      },
+                    const Text(
+                      'You have\'t ordered',
+                      style: Styles.txtTitleBrown,
                     )
                   ],
                 ),
-              ),
-            ),
+              );
+            }
+            return Container();
+          }),
       bottomSheet: Visibility(
-          visible: viewModel.cartData.isEmpty ? false : true,
+          visible: true,
           child: Container(
               width: size.width,
               decoration: const BoxDecoration(color: Styles.primaryColor),
