@@ -16,7 +16,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  static List<Widget> optionScreen = <Widget>[HomeScreen(), CartScreen()];
+  static List<Widget> optionScreen = <Widget>[const HomeScreen(), CartScreen()];
   int selectedIndex = 0;
 
   @override
@@ -26,9 +26,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
-    });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<CoffeeShopViewModel>(context, listen: false).getId();
     });
     super.initState();
   }
