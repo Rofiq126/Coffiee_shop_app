@@ -5,6 +5,7 @@ class Condition {
   static final registerSucces = SnackBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      duration: const Duration(seconds: 2),
       content: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: AwesomeSnackbarContent(
@@ -17,6 +18,7 @@ class Condition {
   static final registerPasswordWeak = SnackBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      duration: const Duration(seconds: 2),
       content: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: AwesomeSnackbarContent(
@@ -30,6 +32,7 @@ class Condition {
   static final registerExist = SnackBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      duration: const Duration(seconds: 2),
       content: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: AwesomeSnackbarContent(
@@ -43,6 +46,7 @@ class Condition {
   static final registerFilure = SnackBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      duration: const Duration(seconds: 2),
       content: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: AwesomeSnackbarContent(
@@ -51,5 +55,44 @@ class Condition {
             title: 'Failure',
             message: 'Something wrong',
             contentType: ContentType.failure),
+      ));
+  static final loginSuccesfull = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      duration: const Duration(seconds: 2),
+      content: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: AwesomeSnackbarContent(
+            titleFontSize: 16,
+            messageFontSize: 12,
+            title: 'Login Succesfull',
+            message: 'You will immediately enter the main page',
+            contentType: ContentType.success),
+      ));
+  static final loginUserNotFound = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      duration: const Duration(seconds: 2),
+      content: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: AwesomeSnackbarContent(
+            titleFontSize: 16,
+            messageFontSize: 12,
+            title: 'User Not Found',
+            message: 'Cannot find user with this email',
+            contentType: ContentType.warning),
+      ));
+  static final loginWrongPassword = SnackBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      duration: const Duration(seconds: 2),
+      content: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: AwesomeSnackbarContent(
+            titleFontSize: 16,
+            messageFontSize: 12,
+            title: 'Password Wrong',
+            message: 'Please use correct password',
+            contentType: ContentType.warning),
       ));
 }
