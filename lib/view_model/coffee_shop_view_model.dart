@@ -40,13 +40,12 @@ class CoffeeShopViewModel extends ChangeNotifier {
       // cartData.add(dataCart);
       message = 'Item succesfully added';
       changeState(ResultState.hasData);
-      notifyListeners();
     } catch (e) {
       debugPrint(e.toString());
       message = 'Something wrong';
       changeState(ResultState.error);
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future deleteCart(
@@ -56,35 +55,31 @@ class CoffeeShopViewModel extends ChangeNotifier {
       changeState(ResultState.loading);
       db.collection('dataCart').doc(id).delete();
       message = 'Item deleted';
-      notifyListeners();
       changeState(ResultState.hasData);
-      notifyListeners();
     } catch (e) {
       debugPrint(e.toString());
       message = 'Something wrong';
       changeState(ResultState.error);
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future addQuantity() async {
     try {
       quantity += 1;
-      notifyListeners();
     } catch (e) {
       debugPrint(e.toString());
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future reduceQuantity() async {
     try {
       quantity -= 1;
-      notifyListeners();
     } catch (e) {
       debugPrint(e.toString());
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future isPressedSize({required int index}) async {
@@ -95,24 +90,21 @@ class CoffeeShopViewModel extends ChangeNotifier {
         size = 'Small';
         isTapped1 = false;
         isTapped2 = false;
-        notifyListeners();
       } else if (index == 1) {
         isTapped1 = true;
         size = 'Medium';
         isTapped0 = false;
         isTapped2 = false;
-        notifyListeners();
       } else {
         isTapped2 = true;
         size = 'Large';
         isTapped1 = false;
         isTapped0 = false;
-        notifyListeners();
       }
     } catch (e) {
       debugPrint(e.toString());
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future createUser({required UserData userData}) async {
