@@ -3,9 +3,7 @@ import 'package:coffee_shop_app/model/list_cart_model.dart';
 import 'package:coffee_shop_app/model/user_data_model.dart';
 import 'package:coffee_shop_app/view_model/result_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CoffeeShopViewModel extends ChangeNotifier {
   List<ListCart> cartData = [];
@@ -20,8 +18,6 @@ class CoffeeShopViewModel extends ChangeNotifier {
   ResultState get resultState => _resultState;
   var db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
-  DocumentReference? docRef;
-  List idIndex = [];
   String id = 'null';
   final Stream<QuerySnapshot> dataCartStream =
       FirebaseFirestore.instance.collection('dataCart').snapshots();
