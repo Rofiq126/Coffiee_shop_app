@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ListCart extends StatefulWidget {
-  final VoidCallback function;
-  const ListCart({Key? key, required this.function}) : super(key: key);
+  const ListCart({Key? key}) : super(key: key);
 
   @override
   State<ListCart> createState() => _ListCartState();
@@ -15,6 +14,14 @@ class ListCart extends StatefulWidget {
 class _ListCartState extends State<ListCart> {
   final Stream<QuerySnapshot> dataCartStram =
       FirebaseFirestore.instance.collection('dataCart').snapshots();
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      Provider.of<CoffeeShopViewModel>(context, listen: false).getDataCart();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var viewModel = Provider.of<CoffeeShopViewModel>(context, listen: false);
@@ -38,7 +45,7 @@ class _ListCartState extends State<ListCart> {
           }
           return ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: viewModel.cartData.length,
+              itemCount: snapshot.data!.docs.length,
               separatorBuilder: (context, index) => const SizedBox(
                     height: 10,
                   ),
@@ -47,6 +54,7 @@ class _ListCartState extends State<ListCart> {
               ),
               shrinkWrap: true,
               itemBuilder: (context, index) {
+                DocumentSnapshot docs = snapshot.data!.docs[index];
                 return Container(
                   decoration: BoxDecoration(
                       color: Styles.whiteColor,
@@ -56,18 +64,18 @@ class _ListCartState extends State<ListCart> {
                       child: ListTile(
                           dense: false,
                           leading: Image.asset(
-                            viewModel.cartData[index].pathPicture,
+                            docs['pathPicture'],
                             width: size.width * 0.15,
                           ),
                           title: Text(
-                            viewModel.cartData[index].name,
+                            docs['name'],
                             style: Styles.txtTitleBrown,
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                '\$ ${viewModel.cartData[index].price}',
+                                '\$ ${docs['price']}',
                                 style: Styles.txtReguler,
                               ),
                               Row(
@@ -80,14 +88,13 @@ class _ListCartState extends State<ListCart> {
                                     width: 5,
                                   ),
                                   Text(
-                                    viewModel.cartData[index].quantity
-                                        .toString(),
+                                    docs['quantity'].toString(),
                                     style: Styles.txtReguler,
                                   ),
                                 ],
                               ),
                               Text(
-                                viewModel.cartData[index].size,
+                                docs['size'],
                                 style: Styles.txtReguler,
                               ),
                             ],
@@ -106,10 +113,9 @@ class _ListCartState extends State<ListCart> {
                               Navigator.pop(context);
                               await viewModel
                                   .deleteCart(
-                                    viewModel.idIndex[index],
+                                    docs.id,
                                   )
-                                  .then((value) =>
-                                      viewModel.getDataBinding(context));
+                                  .whenComplete(() => viewModel.getDataCart());
                             },
                             icon: const Icon(
                               Icons.delete,
