@@ -135,16 +135,14 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                     });
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) => const BottomNavBar()));
-                await viewModel
-                    .addCart(
-                      ListCart(
-                          name: widget.name,
-                          price: widget.price,
-                          pathPicture: widget.pathPicture,
-                          quantity: viewModel.quantity,
-                          size: viewModel.size),
-                    )
-                    .whenComplete(() => viewModel.getDataBinding(context));
+                await viewModel.addCart(
+                  ListCart(
+                      name: widget.name,
+                      price: widget.price,
+                      pathPicture: widget.pathPicture,
+                      quantity: viewModel.quantity,
+                      size: viewModel.size),
+                );
               }),
         ),
       ),
