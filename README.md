@@ -1,4 +1,4 @@
-# coffee_shop_app
+# Coffeeshop App
 
 A new Flutter project.
 
