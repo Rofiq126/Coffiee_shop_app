@@ -26,6 +26,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var viewModel = Provider.of<CoffeeShopViewModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Styles.primaryColor,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Styles.primaryColor,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Styles.brownColor,
+            )),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
