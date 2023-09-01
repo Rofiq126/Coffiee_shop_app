@@ -139,6 +139,7 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                   ListCart(
                       name: widget.name,
                       price: widget.price,
+                      id: viewModel.id,
                       pathPicture: widget.pathPicture,
                       quantity: viewModel.quantity,
                       size: viewModel.size),
