@@ -146,7 +146,8 @@ class CoffeeShopViewModel extends ChangeNotifier {
     try {
       changeState(ResultState.loading);
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) => getUid());
       changeState(ResultState.hasData);
       message = 'Login success';
     } on FirebaseAuthException catch (e) {
