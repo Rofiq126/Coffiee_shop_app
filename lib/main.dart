@@ -1,3 +1,4 @@
+import 'package:coffee_shop_app/common/style.dart';
 import 'package:coffee_shop_app/view/auth/login_screen.dart';
 import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Coffee Shop App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Styles.brownColor),
         useMaterial3: true,
       ),
       home: LoginScreen(),
