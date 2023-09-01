@@ -1,7 +1,7 @@
 class ListCart {
   String name;
   String price;
-  String? id;
+  String id;
   int quantity;
   String size;
   String pathPicture;
@@ -9,7 +9,7 @@ class ListCart {
   ListCart(
       {required this.name,
       required this.price,
-      this.id,
+      required this.id,
       required this.pathPicture,
       required this.quantity,
       required this.size});
