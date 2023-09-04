@@ -1,4 +1,4 @@
-class ListCart {
+class ListCartModel {
   String name;
   String price;
   String id;
@@ -6,7 +6,7 @@ class ListCart {
   String size;
   String pathPicture;
 
-  ListCart(
+  ListCartModel(
       {required this.name,
       required this.price,
       required this.id,
@@ -14,7 +14,7 @@ class ListCart {
       required this.quantity,
       required this.size});
 
-  ListCart.fromJson(Map<String, dynamic> json)
+  ListCartModel.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         price = json['price'],
         id = json['id'],

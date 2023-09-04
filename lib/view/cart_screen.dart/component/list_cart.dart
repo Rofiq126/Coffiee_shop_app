@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_shop_app/common/style.dart';
+import 'package:coffee_shop_app/model/list_cart_model.dart';
 import 'package:coffee_shop_app/view_model/coffee_shop_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +49,10 @@ class _ListCartState extends State<ListCart> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 DocumentSnapshot docs = snapshot.data!.docs[index];
+                for (var data in snapshot.data!.docs) {
+                  viewModel.cartData.add(ListCartModel.fromJson(
+                      data.data() as Map<String, dynamic>));
+                }
                 return Container(
                   decoration: BoxDecoration(
                       color: Styles.whiteColor,

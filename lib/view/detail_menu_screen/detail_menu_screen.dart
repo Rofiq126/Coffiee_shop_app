@@ -136,7 +136,7 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) => const BottomNavBar()));
                 await viewModel.addCart(
-                  ListCart(
+                  ListCartModel(
                       name: widget.name,
                       price: widget.price,
                       id: viewModel.id,

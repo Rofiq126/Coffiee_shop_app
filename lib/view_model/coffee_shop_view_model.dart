@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CoffeeShopViewModel extends ChangeNotifier {
-  List<ListCart> cartData = [];
+  List<ListCartModel> cartData = [];
   String message = '';
   int quantity = 0;
   int isPressedIndex = 0;
@@ -26,7 +26,7 @@ class CoffeeShopViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addCart(ListCart dataCart) async {
+  Future addCart(ListCartModel dataCart) async {
     try {
       changeState(ResultState.loading);
       var data = dataCart;
